@@ -3,28 +3,38 @@ import React, { useState } from "react";
 const NewForm = () => {
   const [formData, setFormData] = useState({
     name: "",
+    profileImage: "",
     comment: "",
     about: "",
     techStack: [],
-    experience: {
-      start: "",
-      end: "",
-      company: "",
-      designation: "",
-      comment: "",
-    },
-    project: {
-      image: "",
-      title: "",
-      github: "",
-      tech: "",
-      details: "",
-    },
+    companyStart1: "",
+    companyEnd1: "",
+    companyName1: "",
+    designation1: "",
+    companyComment1: "",
+    companyStart2: "",
+    companyEnd2: "",
+    companyName2: "",
+    designation2: "",
+    companyComment2: "",
+    projectImage1: "",
+    projectTitle1: "",
+    projectGithubLink1: "",
+    projectTech1: "",
+    projectDetails1: "",
+    projectImage2: "",
+    projectTitle2: "",
+    projectGithubLink2: "",
+    projectTech2: "",
+    projectDetails2: "",
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const { name, value, type } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "number" ? (parseInt(value) || 0) : value,
+    }));
   };
 
   const handleTechChange = (e) => {
@@ -47,9 +57,10 @@ const NewForm = () => {
     <form
       onSubmit={handleSubmit}
       className="flex flex-col justify-center items-center my-5 text-gray-200 text-lg mt-14"
+      style={{backgroundColor: '#181818', minHeight: '100vh'}}
     >
-      <div className="grid grid-cols-1 gap-6 border border-gray-600 bg-[#1e1e1e] rounded-2xl shadow px-10 py-8 w-4/5">
-        <h1 className="text-3xl text-center font-bold mb-4">Enter Your Details</h1>
+      <div className="grid grid-cols-1 gap-6 border border-gray-600 rounded-2xl shadow px-10 py-8 w-11/12 max-w-4xl" style={{backgroundColor: '#181818'}}>
+        <h1 className="text-3xl text-center font-bold mb-4" style={{backgroundColor: '#181818'}}>Enter Your Details</h1>
 
         {/* Name */}
         <div>
@@ -60,7 +71,22 @@ const NewForm = () => {
             placeholder="Enter your full name"
             value={formData.name}
             onChange={handleChange}
-            className="w-full p-3 rounded bg-[#2a2a2a] text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+
+        {/* Profile Image */}
+        <div>
+          <label className="block font-semibold mb-1">Profile Image URL</label>
+          <input
+            type="text"
+            name="profileImage"
+            placeholder="Enter profile image URL"
+            value={formData.profileImage}
+            onChange={handleChange}
+            className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
         </div>
 
@@ -73,7 +99,8 @@ const NewForm = () => {
             placeholder="e.g., Full Stack Developer"
             value={formData.comment}
             onChange={handleChange}
-            className="w-full p-3 rounded bg-[#2a2a2a] text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
         </div>
 
@@ -86,7 +113,8 @@ const NewForm = () => {
             placeholder="Write something about yourself..."
             value={formData.about}
             onChange={handleChange}
-            className="w-full p-3 rounded bg-[#2a2a2a] text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           ></textarea>
         </div>
 
@@ -101,6 +129,7 @@ const NewForm = () => {
                     type="checkbox"
                     value={tech}
                     onChange={handleTechChange}
+                    checked={formData.techStack.includes(tech)}
                     className="w-4 h-4"
                   />
                   <span>{tech}</span>
@@ -110,38 +139,30 @@ const NewForm = () => {
           </div>
         </div>
 
-        {/* Experience */}
+        {/* Experience 1 */}
         <div>
-          <h2 className="text-2xl font-semibold mb-3 mt-4">Experience</h2>
+          <h2 className="text-2xl font-semibold mb-3 mt-4">Experience 1</h2>
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <label className="block mb-1">Start (Month-Year)</label>
               <input
                 type="month"
-                name="start"
-                value={formData.experience.start}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    experience: { ...formData.experience, start: e.target.value },
-                  })
-                }
-                className="w-full p-3 rounded bg-[#2a2a2a] text-white focus:ring-2 focus:ring-blue-500"
+                name="companyStart1"
+                value={formData.companyStart1}
+                onChange={handleChange}
+                className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+                required
               />
             </div>
             <div>
               <label className="block mb-1">End (Month-Year)</label>
               <input
                 type="month"
-                name="end"
-                value={formData.experience.end}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    experience: { ...formData.experience, end: e.target.value },
-                  })
-                }
-                className="w-full p-3 rounded bg-[#2a2a2a] text-white focus:ring-2 focus:ring-blue-500"
+                name="companyEnd1"
+                value={formData.companyEnd1}
+                onChange={handleChange}
+                className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+                required
               />
             </div>
           </div>
@@ -151,28 +172,24 @@ const NewForm = () => {
               <label className="block mb-1">Company Name</label>
               <input
                 type="text"
-                value={formData.experience.company}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    experience: { ...formData.experience, company: e.target.value },
-                  })
-                }
-                className="w-full p-3 rounded bg-[#2a2a2a] text-white focus:ring-2 focus:ring-blue-500"
+                name="companyName1"
+                placeholder="Company name"
+                value={formData.companyName1}
+                onChange={handleChange}
+                className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+                required
               />
             </div>
             <div>
               <label className="block mb-1">Designation</label>
               <input
                 type="text"
-                value={formData.experience.designation}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    experience: { ...formData.experience, designation: e.target.value },
-                  })
-                }
-                className="w-full p-3 rounded bg-[#2a2a2a] text-white focus:ring-2 focus:ring-blue-500"
+                name="designation1"
+                placeholder="Your role"
+                value={formData.designation1}
+                onChange={handleChange}
+                className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+                required
               />
             </div>
           </div>
@@ -181,34 +198,93 @@ const NewForm = () => {
             <label className="block mb-1">Experience Comment</label>
             <textarea
               rows="3"
-              value={formData.experience.comment}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  experience: { ...formData.experience, comment: e.target.value },
-                })
-              }
-              className="w-full p-3 rounded bg-[#2a2a2a] text-white focus:ring-2 focus:ring-blue-500"
+              name="companyComment1"
+              placeholder="Describe your experience..."
+              value={formData.companyComment1}
+              onChange={handleChange}
+              className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+              required
             ></textarea>
           </div>
         </div>
 
-        {/* Project Section */}
+        {/* Experience 2 */}
         <div>
-          <h2 className="text-2xl font-semibold mb-3 mt-4">Project</h2>
+          <h2 className="text-2xl font-semibold mb-3 mt-4">Experience 2</h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <label className="block mb-1">Start (Month-Year)</label>
+              <input
+                type="month"
+                name="companyStart2"
+                value={formData.companyStart2}
+                onChange={handleChange}
+                className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block mb-1">End (Month-Year)</label>
+              <input
+                type="month"
+                name="companyEnd2"
+                value={formData.companyEnd2}
+                onChange={handleChange}
+                className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4 mt-4">
+            <div>
+              <label className="block mb-1">Company Name</label>
+              <input
+                type="text"
+                name="companyName2"
+                placeholder="Company name"
+                value={formData.companyName2}
+                onChange={handleChange}
+                className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block mb-1">Designation</label>
+              <input
+                type="text"
+                name="designation2"
+                placeholder="Your role"
+                value={formData.designation2}
+                onChange={handleChange}
+                className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <label className="block mb-1">Experience Comment</label>
+            <textarea
+              rows="3"
+              name="companyComment2"
+              placeholder="Describe your experience..."
+              value={formData.companyComment2}
+              onChange={handleChange}
+              className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+            ></textarea>
+          </div>
+        </div>
+
+        {/* Project 1 */}
+        <div>
+          <h2 className="text-2xl font-semibold mb-3 mt-4">Project 1</h2>
           <div>
             <label className="block mb-1">Project Image URL</label>
             <input
               type="text"
-              value={formData.project.image}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  project: { ...formData.project, image: e.target.value },
-                })
-              }
+              name="projectImage1"
               placeholder="Enter image URL"
-              className="w-full p-3 rounded bg-[#2a2a2a] text-white focus:ring-2 focus:ring-blue-500"
+              value={formData.projectImage1}
+              onChange={handleChange}
+              className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+              required
             />
           </div>
 
@@ -217,28 +293,24 @@ const NewForm = () => {
               <label className="block mb-1">Project Title</label>
               <input
                 type="text"
-                value={formData.project.title}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    project: { ...formData.project, title: e.target.value },
-                  })
-                }
-                className="w-full p-3 rounded bg-[#2a2a2a] text-white focus:ring-2 focus:ring-blue-500"
+                name="projectTitle1"
+                placeholder="Project name"
+                value={formData.projectTitle1}
+                onChange={handleChange}
+                className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+                required
               />
             </div>
             <div>
               <label className="block mb-1">GitHub Link</label>
               <input
                 type="text"
-                value={formData.project.github}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    project: { ...formData.project, github: e.target.value },
-                  })
-                }
-                className="w-full p-3 rounded bg-[#2a2a2a] text-white focus:ring-2 focus:ring-blue-500"
+                name="projectGithubLink1"
+                placeholder="GitHub repository URL"
+                value={formData.projectGithubLink1}
+                onChange={handleChange}
+                className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+                required
               />
             </div>
           </div>
@@ -247,15 +319,12 @@ const NewForm = () => {
             <label className="block mb-1">Tech Stack</label>
             <input
               type="text"
+              name="projectTech1"
               placeholder="e.g., MERN, Tailwind, Axios"
-              value={formData.project.tech}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  project: { ...formData.project, tech: e.target.value },
-                })
-              }
-              className="w-full p-3 rounded bg-[#2a2a2a] text-white focus:ring-2 focus:ring-blue-500"
+              value={formData.projectTech1}
+              onChange={handleChange}
+              className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+              required
             />
           </div>
 
@@ -263,15 +332,77 @@ const NewForm = () => {
             <label className="block mb-1">Project Details (point-wise)</label>
             <textarea
               rows="4"
+              name="projectDetails1"
               placeholder="Use line breaks for points"
-              value={formData.project.details}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  project: { ...formData.project, details: e.target.value },
-                })
-              }
-              className="w-full p-3 rounded bg-[#2a2a2a] text-white focus:ring-2 focus:ring-blue-500"
+              value={formData.projectDetails1}
+              onChange={handleChange}
+              className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+              required
+            ></textarea>
+          </div>
+        </div>
+
+        {/* Project 2 */}
+        <div>
+          <h2 className="text-2xl font-semibold mb-3 mt-4">Project 2</h2>
+          <div>
+            <label className="block mb-1">Project Image URL</label>
+            <input
+              type="text"
+              name="projectImage2"
+              placeholder="Enter image URL"
+              value={formData.projectImage2}
+              onChange={handleChange}
+              className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4 mt-4">
+            <div>
+              <label className="block mb-1">Project Title</label>
+              <input
+                type="text"
+                name="projectTitle2"
+                placeholder="Project name"
+                value={formData.projectTitle2}
+                onChange={handleChange}
+                className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block mb-1">GitHub Link</label>
+              <input
+                type="text"
+                name="projectGithubLink2"
+                placeholder="GitHub repository URL"
+                value={formData.projectGithubLink2}
+                onChange={handleChange}
+                className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <label className="block mb-1">Tech Stack</label>
+            <input
+              type="text"
+              name="projectTech2"
+              placeholder="e.g., MERN, Tailwind, Axios"
+              value={formData.projectTech2}
+              onChange={handleChange}
+              className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div className="mt-4">
+            <label className="block mb-1">Project Details (point-wise)</label>
+            <textarea
+              rows="4"
+              name="projectDetails2"
+              placeholder="Use line breaks for points"
+              value={formData.projectDetails2}
+              onChange={handleChange}
+              className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
             ></textarea>
           </div>
         </div>
