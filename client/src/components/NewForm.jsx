@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const NewForm = () => {
   const [formData, setFormData] = useState({
@@ -49,8 +50,13 @@ const NewForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("📤 Submitted Data:", formData);
-    alert("Form submitted! Check console for data.");
+    try {
+      let mainURL = import.meta.env.VITE_BACKEND_URL;
+      
+      const res = axios.post(`${mainURL}/data/new`, formData)
+    }catch(error) {
+      console.error(`Someting went wrong in send data to backend ${error}`)
+    }
   };
 
   return (
