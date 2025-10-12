@@ -37,6 +37,10 @@ const userDataSchema = new mongoose.Schema({
   projectGithubLink2: { type: String },
   projectTech2: { type: String },
   projectDetails2: { type: String },
+
+  // Social Profile (required)
+  githubProfile: { type: String, required: true },
+  linkedinProfile: { type: String, required: true },
 }, { timestamps: true });
 
 module.exports = mongoose.model("UserData", userDataSchema);

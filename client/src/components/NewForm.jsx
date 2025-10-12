@@ -28,6 +28,8 @@ const NewForm = () => {
     projectGithubLink2: "",
     projectTech2: "",
     projectDetails2: "",
+    githubProfile: "",
+    linkedinProfile: "",
   });
 
   const handleChange = (e) => {
@@ -48,29 +50,37 @@ const NewForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate tech stack
+    if (formData.techStack.length === 0) {
+      alert("Please select at least one technology from Tech Stack!");
+      return;
+    }
+    
     try {
+      console.log("Submitting Data:", formData);
       let mainURL = import.meta.env.VITE_BACKEND_URL;
-      
-      const res = axios.post(`${mainURL}/data/new`, formData)
-    }catch(error) {
-      console.error(`Someting went wrong in send data to backend ${error}`)
+      const res = await axios.post(`${mainURL}/data/new`, formData);
+      console.log("Response:", res.data);
+    } catch (error) {
+      console.error(`Something went wrong in sending data to backend: ${error}`);
+      alert("Failed to submit form. Please try again.");
     }
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
+    <div
       className="flex flex-col justify-center items-center my-5 text-gray-200 text-lg mt-14"
       style={{backgroundColor: '#181818', minHeight: '100vh'}}
     >
       <div className="grid grid-cols-1 gap-6 border border-gray-600 rounded-2xl shadow px-10 py-8 w-11/12 max-w-4xl" style={{backgroundColor: '#181818'}}>
-        <h1 className="text-3xl text-center font-bold mb-4" style={{backgroundColor: '#181818'}}>Enter Your Details</h1>
+        <h1 className="text-3xl text-center font-bold mb-4">Enter Your Details</h1>
 
         {/* Name */}
         <div>
-          <label className="block font-semibold mb-1">Full Name</label>
+          <label className="block font-semibold mb-1">Full Name *</label>
           <input
             type="text"
             name="name"
@@ -84,7 +94,7 @@ const NewForm = () => {
 
         {/* Profile Image */}
         <div>
-          <label className="block font-semibold mb-1">Profile Image URL</label>
+          <label className="block font-semibold mb-1">Profile Image URL *</label>
           <input
             type="text"
             name="profileImage"
@@ -98,7 +108,7 @@ const NewForm = () => {
 
         {/* Comment below name */}
         <div>
-          <label className="block font-semibold mb-1">Short Comment (below name)</label>
+          <label className="block font-semibold mb-1">Short Comment (below name) *</label>
           <input
             type="text"
             name="comment"
@@ -112,7 +122,7 @@ const NewForm = () => {
 
         {/* About Me */}
         <div>
-          <label className="block font-semibold mb-1">About Me</label>
+          <label className="block font-semibold mb-1">About Me *</label>
           <textarea
             name="about"
             rows="4"
@@ -126,17 +136,17 @@ const NewForm = () => {
 
         {/* Tech Stack */}
         <div>
-          <label className="block font-semibold mb-2">Tech Stack (select multiple):</label>
+          <label className="block font-semibold mb-2">Tech Stack (select at least one) *</label>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
             {["HTML", "CSS", "JavaScript", "React", "Angular", "MongoDB", "Bootstrap", "Tailwind"].map(
               (tech) => (
-                <label key={tech} className="flex items-center space-x-2">
+                <label key={tech} className="flex items-center space-x-2 cursor-pointer">
                   <input
                     type="checkbox"
                     value={tech}
                     onChange={handleTechChange}
                     checked={formData.techStack.includes(tech)}
-                    className="w-4 h-4"
+                    className="w-4 h-4 cursor-pointer"
                   />
                   <span>{tech}</span>
                 </label>
@@ -147,10 +157,10 @@ const NewForm = () => {
 
         {/* Experience 1 */}
         <div>
-          <h2 className="text-2xl font-semibold mb-3 mt-4">Experience 1</h2>
+          <h2 className="text-2xl font-semibold mb-3 mt-4">Experience 1 *</h2>
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block mb-1">Start (Month-Year)</label>
+              <label className="block mb-1">Start (Month-Year) *</label>
               <input
                 type="month"
                 name="companyStart1"
@@ -161,7 +171,7 @@ const NewForm = () => {
               />
             </div>
             <div>
-              <label className="block mb-1">End (Month-Year)</label>
+              <label className="block mb-1">End (Month-Year) *</label>
               <input
                 type="month"
                 name="companyEnd1"
@@ -175,7 +185,7 @@ const NewForm = () => {
 
           <div className="grid md:grid-cols-2 gap-4 mt-4">
             <div>
-              <label className="block mb-1">Company Name</label>
+              <label className="block mb-1">Company Name *</label>
               <input
                 type="text"
                 name="companyName1"
@@ -187,7 +197,7 @@ const NewForm = () => {
               />
             </div>
             <div>
-              <label className="block mb-1">Designation</label>
+              <label className="block mb-1">Designation *</label>
               <input
                 type="text"
                 name="designation1"
@@ -201,7 +211,7 @@ const NewForm = () => {
           </div>
 
           <div className="mt-4">
-            <label className="block mb-1">Experience Comment</label>
+            <label className="block mb-1">Experience Comment *</label>
             <textarea
               rows="3"
               name="companyComment1"
@@ -216,7 +226,7 @@ const NewForm = () => {
 
         {/* Experience 2 */}
         <div>
-          <h2 className="text-2xl font-semibold mb-3 mt-4">Experience 2</h2>
+          <h2 className="text-2xl font-semibold mb-3 mt-4">Experience 2 (Optional)</h2>
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <label className="block mb-1">Start (Month-Year)</label>
@@ -280,9 +290,9 @@ const NewForm = () => {
 
         {/* Project 1 */}
         <div>
-          <h2 className="text-2xl font-semibold mb-3 mt-4">Project 1</h2>
+          <h2 className="text-2xl font-semibold mb-3 mt-4">Project 1 *</h2>
           <div>
-            <label className="block mb-1">Project Image URL</label>
+            <label className="block mb-1">Project Image URL *</label>
             <input
               type="text"
               name="projectImage1"
@@ -296,7 +306,7 @@ const NewForm = () => {
 
           <div className="grid md:grid-cols-2 gap-4 mt-4">
             <div>
-              <label className="block mb-1">Project Title</label>
+              <label className="block mb-1">Project Title *</label>
               <input
                 type="text"
                 name="projectTitle1"
@@ -308,7 +318,7 @@ const NewForm = () => {
               />
             </div>
             <div>
-              <label className="block mb-1">GitHub Link</label>
+              <label className="block mb-1">GitHub Link *</label>
               <input
                 type="text"
                 name="projectGithubLink1"
@@ -322,7 +332,7 @@ const NewForm = () => {
           </div>
 
           <div className="mt-4">
-            <label className="block mb-1">Tech Stack</label>
+            <label className="block mb-1">Tech Stack *</label>
             <input
               type="text"
               name="projectTech1"
@@ -335,7 +345,7 @@ const NewForm = () => {
           </div>
 
           <div className="mt-4">
-            <label className="block mb-1">Project Details (point-wise)</label>
+            <label className="block mb-1">Project Details (point-wise) *</label>
             <textarea
               rows="4"
               name="projectDetails1"
@@ -350,7 +360,7 @@ const NewForm = () => {
 
         {/* Project 2 */}
         <div>
-          <h2 className="text-2xl font-semibold mb-3 mt-4">Project 2</h2>
+          <h2 className="text-2xl font-semibold mb-3 mt-4">Project 2 (Optional)</h2>
           <div>
             <label className="block mb-1">Project Image URL</label>
             <input
@@ -413,14 +423,45 @@ const NewForm = () => {
           </div>
         </div>
 
+        {/* Social Links */}
+        <div>
+          <h2 className="text-2xl font-semibold mb-3 mt-4">Social Profiles *</h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <label className="block mb-1">GitHub Profile URL *</label>
+              <input
+                type="url"
+                name="githubProfile"
+                placeholder="https://github.com/yourusername"
+                value={formData.githubProfile}
+                onChange={handleChange}
+                className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+            <div>
+              <label className="block mb-1">LinkedIn Profile URL *</label>
+              <input
+                type="url"
+                name="linkedinProfile"
+                placeholder="https://linkedin.com/in/yourusername"
+                value={formData.linkedinProfile}
+                onChange={handleChange}
+                className="w-full p-3 rounded bg-gray-800 text-white focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+          </div>
+        </div>
+
         <button
-          type="submit"
-          className="w-full mt-6 py-3 bg-blue-600 hover:bg-blue-700 text-white text-lg font-bold rounded-lg transition"
+          onClick={handleSubmit}
+          className="w-full mt-6 py-3 bg-blue-600 hover:bg-blue-700 text-white text-lg font-bold rounded-lg transition cursor-pointer"
         >
           Submit
         </button>
       </div>
-    </form>
+    </div>
   );
 };
 
