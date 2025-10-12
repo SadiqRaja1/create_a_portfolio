@@ -3,15 +3,17 @@ import {Route, Routes, useLocation } from "react-router-dom"
 import Home from "./components/Home"
 import NewForm from "./components/NewForm.jsx"
 import Header from './components/Header'
+import Preview from "./components/Preview.jsx"
 
 const App = () => {
   return (
     <>
-    <div className='flex flex-col min-h-screen bg-[#181818]'>
+    <div className='flex flex-col bg-[#181818]'>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/new" element={<NewForm />} />
+        <Route path="/preview/:id" element={<Preview />} />
       </Routes>
     </div>
       

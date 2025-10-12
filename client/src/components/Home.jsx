@@ -1,5 +1,4 @@
-import React from 'react'
-import Header from './Header'
+import {Link} from "react-router-dom"
 import profileImage from "../assets/Sadiq.jpeg"
 import About from './About'
 import TechStack from './TechStack'
@@ -23,12 +22,22 @@ const Home = () => {
             I am a <span className="text-blue-400 font-semibold">Full Stack Developer</span> passionate about building
             modern web applications.
           </p>
-          <button className="text-xl mt-6 px-16 py-3 border-2 border-blue-600 hover:bg-blue-600 hover:text-white transition rounded-2xl text-blue-600 font-bold shadow-lg">
-            CONTACT ME
-          </button>
+          
+          <a href="#contact">
+            <button className="text-xl mt-6 px-16 py-3 border-2 border-blue-600 hover:bg-blue-600 hover:text-white transition rounded-2xl text-blue-600 font-bold shadow-lg">
+              CONTACT ME
+            </button>
+          </a>
+          <br />
+
+          <Link to="/new">
+            <button className="text-xl mt-6 px-28 py-3 border-2 border-blue-600 hover:bg-blue-600 hover:text-white transition rounded-2xl text-blue-600 font-bold shadow-lg">
+              CREATE YOUR PORTFOLIO
+            </button>
+          </Link>
         </div>
 
-        <div className="flex justify-center md:justify-end">
+        <div className="hidden md:flex justify-center md:justify-end">
           <img
             src={profileImage}
             alt="Profile"

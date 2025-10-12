@@ -2,7 +2,7 @@ import React from 'react'
 
 const Contact = () => {
     return (
-        <section id="contact" className="flex flex-col items-center justify-center text-white mx-48 mt-10 pt-24">
+        <section id="contact" className="flex flex-col items-center justify-center text-white md:mx-48 mt-10 pt-24">
             <h1 className="text-5xl font-bold mb-6">Get in Touch</h1>
             <h4 className='text-2xl mb-8'>I'd love to hear from you!</h4>
             <form className="w-full max-w-lg bg-[#1e1e1e] p-8 rounded-2xl shadow-lg space-y-6">

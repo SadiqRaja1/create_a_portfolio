@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate} from "react-router-dom"
 
 const NewForm = () => {
+  const navigate =  useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     profileImage: "",
@@ -63,7 +66,8 @@ const NewForm = () => {
       console.log("Submitting Data:", formData);
       let mainURL = import.meta.env.VITE_BACKEND_URL;
       const res = await axios.post(`${mainURL}/data/new`, formData);
-      console.log("Response:", res.data);
+      console.log("Response:", res.data.id);
+      navigate(`/preview/${res.data.id}`)
     } catch (error) {
       console.error(`Something went wrong in sending data to backend: ${error}`);
       alert("Failed to submit form. Please try again.");
@@ -71,7 +75,8 @@ const NewForm = () => {
   };
 
   return (
-    <div
+    <div 
+      id="home"
       className="flex flex-col justify-center items-center my-5 text-gray-200 text-lg mt-14"
       style={{backgroundColor: '#181818', minHeight: '100vh'}}
     >
@@ -107,7 +112,7 @@ const NewForm = () => {
         </div>
 
         {/* Comment below name */}
-        <div>
+        <div id="about">
           <label className="block font-semibold mb-1">Short Comment (below name) *</label>
           <input
             type="text"
@@ -121,12 +126,12 @@ const NewForm = () => {
         </div>
 
         {/* About Me */}
-        <div>
+        <div id="techStack">
           <label className="block font-semibold mb-1">About Me *</label>
           <textarea
             name="about"
             rows="4"
-            placeholder="Write something about yourself..."
+            placeholder="Write something about yourself... (Use line break to add it in next line)"
             value={formData.about}
             onChange={handleChange}
             className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -135,7 +140,7 @@ const NewForm = () => {
         </div>
 
         {/* Tech Stack */}
-        <div>
+        <div id="experience">
           <label className="block font-semibold mb-2">Tech Stack (select at least one) *</label>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
             {["HTML", "CSS", "JavaScript", "React", "Angular", "MongoDB", "Bootstrap", "Tailwind"].map(
@@ -275,7 +280,7 @@ const NewForm = () => {
             </div>
           </div>
 
-          <div className="mt-4">
+          <div className="mt-4" id="project">
             <label className="block mb-1">Experience Comment</label>
             <textarea
               rows="3"

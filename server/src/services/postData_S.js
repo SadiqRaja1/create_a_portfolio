@@ -4,8 +4,7 @@ async function post(data) {
     try {
         const  newData = new userData(data);
         const response = await newData.save();
-        console.log(response);
-        return "Data update successfully";
+        return response._id;
     }catch(error) {
         console.log(error);
         throw new Error(`Something went wrong ${error}`);
